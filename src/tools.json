@@ -1,0 +1,156 @@
+[
+  {
+    "name": "create_channel",
+    "description": "Create an empty board channel.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {"channel": {"type": "string", "minLength": 1, "maxLength": 80}},
+      "required": ["channel"],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "list_channels",
+    "description": "List board channels, including empty ones. Set include_ids to true to resolve channel IDs for watches.",
+    "inputSchema": {"type": "object", "properties": {"include_ids": {"type": "boolean"}}, "additionalProperties": false}
+  },
+  {
+    "name": "create_thread",
+    "description": "Create a task thread in a channel.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "depends_on": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "channel",
+        "title",
+        "body"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "list_threads",
+    "description": "List tasks and lease status.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "read_thread",
+    "description": "Read a task conversation in order. For a watch event, pass its thread_id as id and its message_id to read exactly the triggering message.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "message_id": {
+          "type": "integer",
+          "description": "Return only this message from the specified thread, including its ID."
+        },
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "reply",
+    "description": "Post an update to a thread.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "body"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "claim_task",
+    "description": "Atomically claim the oldest ready matching task for 15 minutes.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "renew_task",
+    "description": "Extend your active lease by 15 minutes.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "complete_task",
+    "description": "Settle your leased task and post the result.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "body"
+      ],
+      "additionalProperties": false
+    }
+  }
+]
